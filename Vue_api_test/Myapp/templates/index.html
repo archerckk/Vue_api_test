@@ -10,14 +10,41 @@
 </head>
 <body>
 
-    <div id="app">
+<div id="app">
 
-        [[ info ]]<br>
-        [[ number ]]  <button @click="add">add</button>
-            <input v-model="text">[[text]]
+    [[ info ]]<br>
+    [[ number ]]
+    <button @click="add">add</button>
+    <input v-model="text">[[text]]
 
-    </div>
+    <br>
+    [[test_list]]
+    <button @click="list_add">list add</button>
+{#    添加一个一样的元素 #}
+    <br>
 
+{#    输入添加的列表元素，显示到列表里面 #}
+    [[test_list2]] <input v-on:keyup.enter="list_enter" v-model="test_list2_input" aria-placeholder="请输入你要添加到列表的元素">
+    <br>
+    <ul>
+        <li v-for="item in test_list">[[item]]</li>
+    </ul>
+
+    <br>
+    <ul>
+        <li v-for="(value,index) in test_list">[[index]]:[[value]]</li>
+    </ul>
+
+    <br>
+    <ul>
+        <li v-for="(value,key,index ) in for_demo">[[index]],[[key]]:[[value]]</li>
+    </ul>
+
+</div>
+
+
+<div id="">
+</div>
 </body>
 
 <script>
@@ -27,14 +54,24 @@
             data: {
                 info: 'this is first vue app',
                 number: 10,
-                text: 'test'
+                text: 'test',
+                test_list: ["123", '456', "789"],
+                test_list2: ["元素1"],
+                test_list2_input: '',
+                for_demo:{"1":"apple","2":"cat"}
             },
             methods: {
                 add: function () {
                     this.number = this.number + 1
 
-                }
-
+                },
+                list_add: function () {
+                    {#this.$.set(this.test_list,-1,)#}
+                    this.test_list.push('123')
+                },
+                list_enter: function () {
+                    this.test_list2.push(this.test_list2_input)
+                },
             }
         }
     )
