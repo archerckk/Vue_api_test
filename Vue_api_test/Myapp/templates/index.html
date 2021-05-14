@@ -40,6 +40,16 @@
         <li v-for="(value,key,index ) in for_demo">[[index]],[[key]]:[[value]]</li>
     </ul>
 
+    <br>
+    [[fetch_title]]<br>
+    <input v-on:keyup.enter="search" v-model="key"><br>
+{#    <input  v-model="key"><br>#}
+    result:
+    <ul>
+        <li v-for="item in results" :key="item">[[item]]</li>
+    </ul>
+
+
 </div>
 
 
@@ -48,7 +58,7 @@
 </body>
 
 <script>
-    new Vue({
+    var app=new Vue({
             delimiters: ["[[", "]]"],
             el: '#app',
             data: {
@@ -58,7 +68,10 @@
                 test_list: ["123", '456', "789"],
                 test_list2: ["元素1"],
                 test_list2_input: '',
-                for_demo:{"1":"apple","2":"cat"}
+                for_demo:{"1":"apple","2":"cat"},
+                fetch_title: '后台返回数据demo',
+                key: "",
+                results:[]
             },
             methods: {
                 add: function () {
@@ -72,7 +85,19 @@
                 list_enter: function () {
                     this.test_list2.push(this.test_list2_input)
                 },
-            }
+                search(){
+                    fetch("/search_key/",{
+                        method:'POST',
+                        body:JSON.stringify({key:this.key})
+                    }).then(function(response) {
+                        return response.json();
+                    }).then(function (json) {
+                         app.results=json;
+                    })
+
+                }
+            },
+
         }
     )
 </script>

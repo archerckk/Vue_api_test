@@ -20,5 +20,8 @@ from Myapp.views import *
 
 urlpatterns = [
     url('admin/', admin.site.urls),
-    url(r'^index/$',index)
+    url(r'^index/$',index),
+    url(r'^search_key/$',search_key),
+
+
 ]
