@@ -22,6 +22,9 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^index/$',index),
     url(r'^search_key/$',search_key),
-
+    url(r'^get_fruits/$',get_fruits),
+    url(r'^load_login/$',load_login),
+    url(r'^login/$',login),
+    url(r'^style_demo/$',style_demo),
 
 ]

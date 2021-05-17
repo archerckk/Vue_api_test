@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
+</head>
+<body>
+<div id="app">
+    <div :class="color_value">测试文案</div>
+
+    <div :class="class_object">测试文案2</div>
+
+    <el-button @click="change">change</el-button>
+
+    <part_comp></part_comp>
+
+
+</div>
+
+<div id="app2" style="margin-top: 20px">
+    <span>华丽的换行符——————————————————————————————————————————————————————————————</span>
+    12333
+    <test_comp></test_comp>
+    <part_comp></part_comp>
+
+</div>
+</body>
+
+<script>
+    Vue.component("test_comp", {
+        template: '<h1>这是一个全局的测试组件</h1>'
+    });
+
+
+    var appChild={template: '<h1>这是一个局部测试组件</h1>'};
+
+
+    var app = new Vue({
+            delimiters: ["[[", "]]"],
+            el: "#app",
+            components: {
+                'part_comp': appChild
+            },
+            data: {
+                "color_value": "red_class",
+                "flag": false,
+
+            },
+            methods: {
+                change() {
+                    this.flag = !this.flag
+                    if (this.color_value === "red_class") {
+                        this.color_value = 'blue_class';
+                    } else {
+                        this.color_value = 'red_class';
+
+                    }
+                }
+
+
+            },
+            computed: {
+
+                class_object: function () {
+                    return {"red_class": this.flag, "blue_class": !this.flag}
+                }
+
+
+            }
+
+
+
+        }
+    );
+
+
+
+    var app2=new Vue({
+         delimiters: ["[[", "]]"],
+            el: "#app2",
+    });
+</script>
+
+<style>
+    .red_class {
+        color: red;
+    }
+
+    .blue_class {
+        color: blue;
+    }
+
+</style>
+
+
+</html>

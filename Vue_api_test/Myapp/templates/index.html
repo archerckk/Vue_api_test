@@ -6,6 +6,11 @@
 
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
 
 </head>
 <body>
@@ -49,6 +54,46 @@
         <li v-for="item in results" :key="item">[[item]]</li>
     </ul>
 
+        <br>
+    [[info]]
+    <ul>
+        <li v-for="fruite in fruits" :key="fruite">[[fruite]]</li>
+    </ul>
+
+
+    <br>
+    输入框：
+    <el-input v-model="input" placeholder="请输入内容"></el-input>
+    [[input]]
+
+
+    是否选中：
+      <el-checkbox v-model="checked">备选项</el-checkbox>
+    [[checked]]
+
+    多选：
+     <el-checkbox-group v-model="checkList">
+    <el-checkbox label="复选框 A"></el-checkbox>
+    <el-checkbox label="复选框 B"></el-checkbox>
+    <el-checkbox label="复选框 C"></el-checkbox>
+    <el-checkbox label="禁用" disabled></el-checkbox>
+  </el-checkbox-group>
+    [[checkList]]
+    <br>
+
+    选择菜单：
+    <el-select v-model="selected" placeholder="请选择">
+    <el-option
+
+      label="apple"
+      value="apple_value">
+    </el-option>
+    <el-option
+      label="pear"
+      value="pear_value">
+    </el-option>
+  </el-select>
+    [[selected]]
 
 </div>
 
@@ -68,10 +113,16 @@
                 test_list: ["123", '456', "789"],
                 test_list2: ["元素1"],
                 test_list2_input: '',
-                for_demo:{"1":"apple","2":"cat"},
+                for_demo: {"1": "apple", "2": "cat"},
                 fetch_title: '后台返回数据demo',
                 key: "",
-                results:[]
+                results: [],
+                fruits: [],
+                input:"",
+                checked: false,
+                checkList:['复选框 A'],
+                selected:""
+
             },
             methods: {
                 add: function () {
@@ -85,18 +136,37 @@
                 list_enter: function () {
                     this.test_list2.push(this.test_list2_input)
                 },
-                search(){
-                    fetch("/search_key/",{
-                        method:'POST',
-                        body:JSON.stringify({key:this.key})
-                    }).then(function(response) {
+                search() {
+                    fetch("/search_key/", {
+                        method: 'POST',
+                        body: JSON.stringify({key: this.key})
+                    }).then(function (response) {
                         return response.json();
                     }).then(function (json) {
-                         app.results=json;
+                        app.results = json;
                     })
 
-                }
+                },
+
+
+
             },
+            created:function () {
+                this.info
+                this.$set(this.fruits,1,'cat')
+
+                fetch("/get_fruits/",{
+                    method:'GET'
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (json) {
+                    app.fruits=json;
+                }).catch(function (ex) {
+                    console.log('parse fail',ex)
+                })
+            }
+
+
 
         }
     )

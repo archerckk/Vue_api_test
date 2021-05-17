@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <div class="login_box">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px">
+            <el-form-item label="用户名" prop="name">
+                <el-input v-model="ruleForm.name"></el-input>
+            </el-form-item>
+
+            <el-form-item  label="密码" prop="psw">
+                <el-input v-model="ruleForm.psw" type="password"></el-input>
+            </el-form-item>
+
+            <el-form-item class="login_button" label-width="100px">
+                <el-button type="primary" @click="submitForm('ruleForm')">
+                    登&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp录
+                </el-button>
+            </el-form-item>
+
+        </el-form>
+    </div>
+
+
+</div>
+
+
+</body>
+<script>
+    var app = new Vue({
+        delimiters: ["[[", "]]"],
+        el: "#app",
+        data: {
+            ruleForm: {
+                name: '',
+                psw: '',
+            },
+            rules: {
+                name: [
+                    {required: true, message: '请输入用户名', trigger: 'blur'},
+                    {min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur'}
+                ],
+                psw: [
+                    {required: true, message: '请输入用户密码', trigger: 'blur'},
+                    {min: 3, max: 11, message: '长度在 3 到 11 个字符', trigger: 'blur'}
+                ]
+
+
+            }
+        },
+        methods: {
+            submitForm(ruleForm) {
+                this.$refs[ruleForm].validate((valid) => {
+                    if (valid) {
+                        this.login();
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            login() {
+                fetch('/login/', {
+                    method: 'POST',
+                    body: JSON.stringify(this.ruleForm)
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    if (data.success === true) {
+                        alert('登录成功');
+                    } else {
+                        console.log('登录失败')
+                        alert('登录失败');
+
+                    }
+                })
+            }
+
+        }
+
+
+    })
+
+
+</script>
+
+
+<style>
+    .login_box {
+        width: 600px;
+        height: 600px;
+
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 100px;
+    }
+
+    .login_button {
+        text-align: center;
+    }
+
+</style>
+
+
+</html>
