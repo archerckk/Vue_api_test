@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+</head>
+<body>
+{#<template id="child">#}
+{#    <div>[[staticvalue]]</div>#}
+{#</template>#}
+
+<div id="app">
+[[message]]<br>
+<child_comp staticvalue="static"></child_comp>
+<el-button @click="change" >change</el-button>
+</div>
+
+</body>
+
+
+<script>
+    Vue.component("child_comp",{
+        props:["staticvalue"],
+        template: "<div>'[''['staticvalue']'']'</div>"
+
+    });
+
+
+    var app = new Vue({
+        delimiters: ["[[", "]]"],
+        el:'#app',
+        data: {
+            message: 1
+        },
+        methods:{
+            change(){
+                this.message+=1
+            }
+        }
+
+    })
+
+</script>
+
+</html>

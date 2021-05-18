@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^load_login/$',load_login),
     url(r'^login/$',login),
     url(r'^style_demo/$',style_demo),
+    url(r'^component_info/$',component_info),
 
 ]

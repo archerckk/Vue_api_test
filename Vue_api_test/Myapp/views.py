@@ -70,3 +70,7 @@ def login(request):
 
 def style_demo(request):
     return render(request,'style_demo.html')
+
+
+def component_info(request):
+    return render(request,'component_info.html')
