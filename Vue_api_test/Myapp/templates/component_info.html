@@ -11,37 +11,67 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
 </head>
-<body>
-{#<template id="child">#}
-{#    <div>[[staticvalue]]</div>#}
-{#</template>#}
 
-<div id="app">
-[[message]]<br>
-<child_comp staticvalue="static"></child_comp>
-<el-button @click="change" >change</el-button>
-</div>
+<body>
+
+
+{% verbatim myblock %}
+    <template id="child1">
+        <div>
+            {{ auto_value }}
+            <el-button @click="child_change">child change</el-button>
+
+        </div>
+    </template>
+
+
+
+    <div id="app">
+
+        {{ message }}
+        <el-button @click="change">parent change</el-button>
+
+        <child_comp @autochange="get_child_vaule" :auto_value="message"></child_comp>
+
+    </div>
+
+{% endverbatim myblock %}
 
 </body>
 
-
 <script>
-    Vue.component("child_comp",{
-        props:["staticvalue"],
-        template: "<div>'[''['staticvalue']'']'</div>"
+    Vue.component("child_comp", {
+        props: ["staticvalue", "auto_value"],
+        template: "#child1",
+        data:function(){
+          return{
+              message:1
+          }
+        },
+        methods: {
+            child_change() {
+                this.auto_value += 1
+                this.$emit("autochange", this.auto_value)
+            }
+        }
 
     });
 
 
     var app = new Vue({
-        delimiters: ["[[", "]]"],
-        el:'#app',
+        {#delimiters: ["{[", "]}"],#}
+        el: '#app',
         data: {
-            message: 1
+            message: 1,
+            auto: 30
         },
-        methods:{
-            change(){
-                this.message+=1
+        methods: {
+            change() {
+                this.message += 1
+                this.auto += 1
+            },
+            get_child_vaule(value) {
+                this.message=value
             }
         }
 
